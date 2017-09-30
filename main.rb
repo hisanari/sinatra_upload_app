@@ -40,12 +40,12 @@ class MainApp < Sinatra::Base
     include Sprockets::Helpers
   end
   
-  before do
-    cache_control :public, :must_revalitive, :max_age => 60
-  end
+  # before do
+  #   cache_control :public, :must_revalitive, :max_age => 60
+  # end
 
   get '/' do
-    @message = "Hello sprocket!!"
+    @message = "Hello sprokets reloader!"
     erb :index
   end
 
