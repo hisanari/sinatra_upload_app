@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sprockets'
+require 'sprockets-helpers'
 require 'uglifier'
 require 'sass'
 require 'coffee-script'
@@ -9,34 +10,42 @@ require 'coffee-script'
 
 class MainApp < Sinatra::Base
   # リローダーが有効になる
-   configure :development do
-     register Sinatra::Reloader
-   end
+  configure :development do
+    register Sinatra::Reloader
+  end
   # layout.rbが有効になる
   enable :inline_template
 
   # sproketsの設定
-  # イニシャライズ
-  set :environment, Sprockets::Environment.new
-
-  # assetsファルダのパスを追加
-  environment.append_path "assets/scss"
-  environment.append_path "assets/js"
-
-  # 圧縮
-  environment.js_compressor  = :uglify
-  environment.css_compressor = :scss
-
-  # get aseets
-  get '/assets/*' do
-    env["PATH_INFO"].sub!("/assets", "")
-    settings.environment.call(env)
-  end  
+  set :sprockets,    Sprockets::Environment.new(root)
   
+  configure do
+    # assetsファルダのパスを追加
+    sprockets.append_path File.join(root, 'assets', 'scss')
+    sprockets.append_path File.join(root, 'assets', 'js')
+    # 圧縮
+    sprockets.js_compressor  = :uglify
+    sprockets.css_compressor = :scss
 
+    Sprockets::Helpers.configure do |config|
+      config.environment = sprockets
+      config.prefix      = '/assets'
+      config.digest      = true
+      config.debug       = true if development? 
+    end
+
+  end
+
+  helpers do
+    include Sprockets::Helpers
+  end
+  
+  before do
+    cache_control :public, :must_revalitive, :max_age => 60
+  end
 
   get '/' do
-    @message = "hello"
+    @message = "Hello sprocket!!"
     erb :index
   end
 

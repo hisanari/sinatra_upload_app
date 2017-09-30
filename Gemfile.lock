@@ -7,11 +7,15 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    daemons (1.2.4)
+    eventmachine (1.2.5-x64-mingw32)
     execjs (2.7.0)
     ffi (1.9.18-x64-mingw32)
     multi_json (1.12.2)
     mustermann (1.0.1)
     rack (2.0.3)
+    rack-cache (1.7.1)
+      rack (>= 0.4)
     rack-protection (2.0.0)
       rack
     rb-fsevent (0.10.2)
@@ -37,6 +41,12 @@ GEM
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
+    sprockets-helpers (1.2.1)
+      sprockets (>= 2.2)
+    thin (1.7.2)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
     tilt (2.0.8)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
@@ -46,10 +56,13 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
+  rack-cache
   sass
   sinatra
   sinatra-contrib
   sprockets
+  sprockets-helpers
+  thin
   uglifier
 
 BUNDLED WITH
