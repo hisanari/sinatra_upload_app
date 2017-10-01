@@ -6,7 +6,9 @@ require 'sprockets-helpers'
 require 'uglifier'
 require 'sass'
 require 'coffee-script'
-
+require 'carrierwave'
+require "carrierwave/orm/activerecord"
+require './models/images.rb'
 
 class MainApp < Sinatra::Base
   # リローダーが有効になる
@@ -15,6 +17,12 @@ class MainApp < Sinatra::Base
   end
   # layout.rbが有効になる
   enable :inline_template
+
+  # carrierwave
+  CarrierWave.configure do |config|
+    config.root = File.dirname(__FILE__) + "/public"
+  end
+
 
   # sproketsの設定
   set :sprockets,    Sprockets::Environment.new(root)
@@ -30,7 +38,7 @@ class MainApp < Sinatra::Base
     Sprockets::Helpers.configure do |config|
       config.environment = sprockets
       config.prefix      = '/assets'
-      config.digest      = true
+      config.digest      = true 
       config.debug       = true if development? 
     end
 
@@ -46,7 +54,21 @@ class MainApp < Sinatra::Base
 
   get '/' do
     @message = "Hello sprokets reloader!"
+    @image   = Image.all.order('created_at DESC')
     erb :index
+  end
+
+  post '/' do
+    #　create new model
+    img = Image.new
+
+    # save the data from reuest
+    img.image   = params[:file]
+    img.caption = "This is Caption"
+
+    img.save
+
+    redirect '/'
   end
 
   get '/show' do
