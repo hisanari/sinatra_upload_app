@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/activerecord'
 require 'sprockets'
 require 'sprockets-helpers'
 require 'uglifier'
@@ -17,6 +18,8 @@ class MainApp < Sinatra::Base
   end
   # layout.rbが有効になる
   enable :inline_template
+
+  register Sinatra::ActiveRecordExtension
 
   # carrierwave
   CarrierWave.configure do |config|
@@ -61,11 +64,9 @@ class MainApp < Sinatra::Base
   post '/' do
     #　create new model
     img = Image.new
-
     # save the data from reuest
-    img.image   = params[:file]
-    img.caption = "This is Caption"
-
+    img.image = params[:file]
+    img.title = "title"
     img.save
 
     redirect '/'

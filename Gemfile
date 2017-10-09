@@ -21,3 +21,11 @@ gem "carrierwave"
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sqlite3'
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'wdm'
+end

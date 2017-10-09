@@ -7,7 +7,7 @@
 <form action="/" method='POST' enctype="multipart/form-data">
   <div class="file has-name">
     <label class="file-label">
-    <input class="file-input" type="file" name="file" required>
+    <input class="file-input" type="file" name="file" id="file" required>
     <span class="file-cta">
       <span class="file-icon">
         <i class="fa fa-upload"></i>
@@ -16,7 +16,7 @@
         Choose a file…
       </span>
     </span>
-    <span class="file-name">
+    <span id="filename" class="file-name">
       Screen Shot 2017-07-29 at 15.54.25.png
     </span>
   </label>
@@ -34,7 +34,8 @@
             </figure>  
         </div>
         <div class="div-content">
-        <p><%= i.caption %></p>
+        <p><%= i.id %></p>
+        <p><%= i.title %></p>
         </div>
       </div>
   <% end %>

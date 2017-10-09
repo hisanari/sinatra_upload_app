@@ -1,3 +1,9 @@
 require "sinatra/activerecord"
 require "sinatra/activerecord/rake"
-require "./models/images"
+# require "./main.rb"
+
+namespace :db do
+  task :load_path do
+    require "./main"
+  end
+end
